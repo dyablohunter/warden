@@ -1,0 +1,19 @@
+# secrets
+.env
+*.env
+!.env.example
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+
+# local state when running from a checkout
+state/
+*.db
+*.db-wal
+*.db-shm

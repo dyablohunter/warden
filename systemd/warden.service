@@ -1,0 +1,27 @@
+[Unit]
+Description=Warden autonomous sysadmin & security agent
+Documentation=https://github.com/dyablohunter/warden
+After=network-online.target nftables.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/warden
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=WARDEN_ENV_FILE=/etc/warden/warden.env
+Environment=PYTHONPATH=/opt/warden
+ExecStart=/usr/bin/python3 -s -m warden daemon
+ExecReload=/bin/kill -USR1 $MAINPID
+Restart=always
+RestartSec=10
+# Keep running under memory pressure so it can respond to it
+OOMScoreAdjust=-500
+Nice=5
+MemoryHigh=512M
+TimeoutStopSec=30
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
